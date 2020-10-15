@@ -1,7 +1,7 @@
-check50:
-  files: &check50_files
-    - !exclude "*"
-    - !include "*"
+import check50
 
-submit50:
-  files: *check50_files
+
+@check50.check()
+def submitted():
+    """HTML Test submitted"""
+    pass
