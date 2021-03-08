@@ -3,6 +3,10 @@ from cs50 import SQL
 import check50
 import re
 
+def empty_db():
+    db = SQL("sqlite:///students.db")
+    db.execute('DELETE FROM students')
+
 @check50.check()
 def exists():
     """import.py, roster.py exist"""
@@ -12,6 +16,7 @@ def exists():
 @check50.check(exists)
 def import1():
     """import.py correctly imports Harry Potter"""
+    empty_db()
     check50.run("python3 import.py students.csv").exit(timeout=100)
     db = SQL("sqlite:///students.db")
     rows = db.execute("SELECT first, middle, last, house, birth FROM students WHERE first = 'Harry'")
@@ -22,6 +27,7 @@ def import1():
 @check50.check(exists)
 def import2():
     """import.py correctly imports Luna Lovegood"""
+    empty_db()
     check50.run("python3 import.py students.csv").exit(timeout=10)
     db = SQL("sqlite:///students.db")
     rows = db.execute("SELECT first, middle, last, house, birth FROM students WHERE first = 'Luna'")
@@ -32,6 +38,7 @@ def import2():
 @check50.check(exists)
 def import_count():
     """import.py imports the correct number of rows"""
+    empty_db()
     check50.run("python3 import.py students.csv").exit(timeout=10)
     db = SQL("sqlite:///students.db")
     actual = db.execute("SELECT COUNT(*) as count FROM students")[0]["count"]
